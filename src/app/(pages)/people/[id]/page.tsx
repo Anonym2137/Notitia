@@ -8,7 +8,37 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { createClient } from "@/lib/supabase/server"
 import FollowPersonButton from "@/components/FollowPersonButton"
 import { getPersonById } from "./actions"
+import type { Metadata, ResolvingMetadata } from "next";
 
+export async function generateMetadata(
+    { params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ type?: string }> },
+    parent: ResolvingMetadata
+): Promise<Metadata> {
+    const { id } = await params
+    const { type: typeParam } = await searchParams
+    const personId = parseInt(id, 10)
+
+    if (isNaN(personId)) {
+        return { title: 'Person Not Found' }
+    }
+
+    const preferredType = typeParam === "actor" || typeParam === "director" ? typeParam : undefined
+    const person = await getPersonById(personId, preferredType)
+
+    if (!person) {
+        return { title: 'Person Not Found' }
+    }
+
+    return {
+        title: `${person.name} | Notitia`,
+        description: `Discover movies directed and acted by ${person.name} on Notitia.`,
+        openGraph: {
+            title: `${person.name} | Notitia`,
+            description: `Discover movies directed and acted by ${person.name} on Notitia.`,
+            images: [person.photo_url || ""],
+        },
+    }
+}
 export default async function PersonPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ type?: string }> }) {
     const { id } = await params
     const { type: typeParam } = await searchParams

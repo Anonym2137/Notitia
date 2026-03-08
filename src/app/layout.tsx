@@ -13,8 +13,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Notitia",
-    description: "Your movie and shows database",
+    title: "Notitia | Movie & Show Database",
+    description: "Your ultimate movie and show database. Discover, track, and share your favorite films and series.",
+    keywords: ["movies", "tv shows", "database", "notitia", "tracker", "watchlist"],
+    openGraph: {
+        title: "Notitia | Movie & Show Database",
+        description: "Your ultimate movie and show database. Discover, track, and share your favorite films and series.",
+        siteName: "Notitia",
+        type: "website",
+    },
     icons: {
         icon: '/favicon.ico',
     },

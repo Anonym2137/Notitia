@@ -13,7 +13,31 @@ import { createClient } from "@/lib/supabase/server";
 import { RatingDialog } from "@/components/RatingDialog";
 import { getAvatarUrl } from "@/lib/e2/avatars";
 import FollowPersonButton from "@/components/FollowPersonButton";
+import type { Metadata, ResolvingMetadata } from "next";
 
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> },
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { slug } = await params
+  const data: Movie | null = await getDataFromSlug(slug)
+
+  if (!data) {
+    return {
+      title: 'Movie Not Found',
+    }
+  }
+
+  return {
+    title: `${data.title} | Notitia`,
+    description: data.description,
+    openGraph: {
+      title: `${data.title} | Notitia`,
+      description: data.description,
+      images: [await getPrivateImageUrl(data.poster_url) || ""],
+    },
+  }
+}
 export default async function MovieDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const data: Movie | null = await getDataFromSlug(slug)
