@@ -1,6 +1,14 @@
 # 🎬 Notitia
 
+![Notitia Hero Interface](./public/hero-section.png)
+
 A modern movie and show database built with Next.js. Browse trending movies, manage your watchlist, discover new films, rate & review, and follow your favourite actors and directors — all in one place.
+
+## Screenshots
+
+![Discover Page](./public/discover.png)
+![Movie Details](./public/movie-details.png)
+![Watchlist](./public/watchlist.png)
 
 ## Tech Stack
 
